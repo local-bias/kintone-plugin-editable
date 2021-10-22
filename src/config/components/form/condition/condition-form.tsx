@@ -2,32 +2,149 @@ import React, { ChangeEventHandler, VFC, VFCX } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from '@emotion/styled';
 import produce from 'immer';
-import { Properties } from '@kintone/rest-api-client/lib/client/types';
+import { OneOf } from '@kintone/rest-api-client/lib/KintoneFields/types/property';
 
 import { appFieldsState, storageState } from '../../../states';
-import { MenuItem, TextField } from '@material-ui/core';
+import { MenuItem, TextField } from '@mui/material';
+import { RuleTypeKey, RULE_TYPES } from '@common/statics';
+import { FormControlLabel, IconButton, Switch, Tooltip } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { getNewRule } from '@common/plugin';
 
 type ContainerProps = { condition: kintone.plugin.Condition; index: number };
 type Props = ContainerProps & {
-  appFields: Properties;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  appFields: OneOf[];
+  onTargetChange: ChangeEventHandler<HTMLInputElement>;
+  addRule: (rowIndex: number) => void;
+  removeRule: (rowIndex: number) => void;
+  onRuleTypeChange: (i: number, value: RuleTypeKey) => void;
+  onRuleFieldChange: (i: number, value: string) => void;
+  onRuleValueChange: (i: number, value: string) => void;
+  onRuleEditableChange: (i: number, checked: boolean) => void;
 };
 
-const Component: VFCX<Props> = ({ className, condition, appFields, onChange }) => (
+const Component: VFCX<Props> = ({
+  className,
+  condition,
+  appFields,
+  onTargetChange,
+  addRule,
+  removeRule,
+  onRuleTypeChange,
+  onRuleFieldChange,
+  onRuleValueChange,
+  onRuleEditableChange,
+}) => (
   <div {...{ className }}>
-    <TextField select value={condition.field} {...{ onChange }}>
-      {Object.values(appFields).map(({ code, label }, i) => (
-        <MenuItem key={i} value={code}>
-          {label}
-        </MenuItem>
+    <div>
+      <h3>入力可否を制御するフィールド</h3>
+      <TextField
+        select
+        value={condition.targetField}
+        label='フィールド名'
+        onChange={onTargetChange}
+        className='input'
+      >
+        {appFields.map(({ code, label }, i) => (
+          <MenuItem key={i} value={code}>
+            {label}
+          </MenuItem>
+        ))}
+      </TextField>
+    </div>
+    <div className='rule'>
+      <h3>ルール</h3>
+      {condition.rules.map((rule, i) => (
+        <div key={i}>
+          {!['always'].includes(rule.type) && (
+            <TextField
+              select
+              label='フィールド名'
+              value={rule.field}
+              onChange={(e) => onRuleFieldChange(i, e.target.value)}
+              className='input'
+            >
+              {appFields.map(({ code, label }, i) => (
+                <MenuItem key={i} value={code}>
+                  {label}
+                </MenuItem>
+              ))}
+            </TextField>
+          )}
+
+          <TextField
+            select
+            label='条件'
+            value={rule.type}
+            onChange={(e) => onRuleTypeChange(i, e.target.value as RuleTypeKey)}
+            className='input'
+          >
+            {RULE_TYPES.map(({ key, label }, i) => (
+              <MenuItem key={i} value={key}>
+                {label}
+              </MenuItem>
+            ))}
+          </TextField>
+          {!['always', 'full', 'empty'].includes(rule.type) && (
+            <TextField
+              value={rule.value}
+              label='値'
+              onChange={(e) => onRuleValueChange(i, e.target.value)}
+              className='input'
+            ></TextField>
+          )}
+          <FormControlLabel
+            control={<Switch color='primary' checked={rule.editable} />}
+            onChange={(_, checked) => onRuleEditableChange(i, checked)}
+            label={rule.editable ? '編集可' : '編集不可'}
+          />
+          <Tooltip title='条件設定を追加する'>
+            <IconButton size='small' onClick={() => addRule(i)}>
+              <AddIcon fontSize='small' />
+            </IconButton>
+          </Tooltip>
+          {condition.rules.length > 1 && (
+            <Tooltip title='この条件設定を削除する'>
+              <IconButton size='small' onClick={() => removeRule(i)}>
+                <DeleteIcon fontSize='small' />
+              </IconButton>
+            </Tooltip>
+          )}
+        </div>
       ))}
-    </TextField>
+    </div>
   </div>
 );
 
 const StyledComponent = styled(Component)`
-  padding: 0 16px;
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  h3 {
+    font-weight: 500;
+  }
+
   > div {
+    padding: 8px 8px 8px 16px;
+    border-left: 3px solid #0002;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .rule {
+    > div {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+  }
+
+  .input {
     min-width: 250px;
   }
 `;
@@ -36,15 +153,72 @@ const Container: VFC<ContainerProps> = ({ condition, index }) => {
   const appFields = useRecoilValue(appFieldsState);
   const setStorage = useSetRecoilState(storageState);
 
-  const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const onTargetChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setStorage((_, _storage = _!) =>
       produce(_storage, (draft) => {
-        draft.conditions[index].field = e.target.value;
+        draft.conditions[index].targetField = e.target.value;
+      })
+    );
+  };
+  const onRuleTypeChange = (i: number, value: RuleTypeKey) => {
+    setStorage((_, _storage = _!) =>
+      produce(_storage, (draft) => {
+        draft.conditions[index].rules[i].type = value;
+      })
+    );
+  };
+  const onRuleFieldChange = (i: number, value: string) => {
+    setStorage((_, _storage = _!) =>
+      produce(_storage, (draft) => {
+        draft.conditions[index].rules[i].field = value;
+      })
+    );
+  };
+  const onRuleValueChange = (i: number, value: string) => {
+    setStorage((_, _storage = _!) =>
+      produce(_storage, (draft) => {
+        draft.conditions[index].rules[i].value = value;
+      })
+    );
+  };
+  const onRuleEditableChange = (i: number, checked: boolean) => {
+    setStorage((_, _storage = _!) =>
+      produce(_storage, (draft) => {
+        draft.conditions[index].rules[i].editable = checked;
+      })
+    );
+  };
+  const addRule = (rowIndex: number) => {
+    setStorage((_, _storage = _!) =>
+      produce(_storage, (draft) => {
+        draft.conditions[index].rules.splice(rowIndex + 1, 0, getNewRule());
+      })
+    );
+  };
+  const removeRule = (rowIndex: number) => {
+    setStorage((_, _storage = _!) =>
+      produce(_storage, (draft) => {
+        draft.conditions[index].rules.splice(rowIndex, 1);
       })
     );
   };
 
-  return <StyledComponent {...{ condition, index, appFields, onChange }} />;
+  return (
+    <StyledComponent
+      {...{
+        condition,
+        index,
+        appFields,
+        onTargetChange,
+        addRule,
+        removeRule,
+        onRuleTypeChange,
+        onRuleFieldChange,
+        onRuleValueChange,
+        onRuleEditableChange,
+      }}
+    />
+  );
 };
 
 export default Container;

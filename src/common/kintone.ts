@@ -3,12 +3,13 @@ import {
   Properties,
   Record as KintoneRecord,
 } from '@kintone/rest-api-client/lib/client/types';
-import { OneOf } from '@kintone/rest-api-client/lib/KintoneFields/types/property';
 import { KintoneRestAPIClient } from '@kintone/rest-api-client';
 import { Cybozu } from '../types/cybozu';
+import { OneOf as FieldProperty } from '@kintone/rest-api-client/lib/KintoneFields/types/property';
+import { OneOf as Field } from '@kintone/rest-api-client/lib/KintoneFields/types/field';
 
 /** kintoneアプリに初期状態で存在するフィールドタイプ */
-const DEFAULT_DEFINED_FIELDS: PickType<OneOf, 'type'>[] = [
+const DEFAULT_DEFINED_FIELDS: PickType<FieldProperty, 'type'>[] = [
   'UPDATED_TIME',
   'CREATOR',
   'CREATED_TIME',
@@ -117,4 +118,55 @@ export const getAppLayout = async (): Promise<Layout> => {
   const { layout } = await client.app.getFormLayout({ app });
 
   return layout;
+};
+
+/** サブテーブルをばらしてフィールドを返却します */
+export const getAllFields = async (): Promise<FieldProperty[]> => {
+  const properties = await getAppFields();
+
+  const fields = Object.values(properties).reduce<FieldProperty[]>((acc, property) => {
+    if (property.type === 'SUBTABLE') {
+      return [...acc, ...Object.values(property.fields)];
+    }
+    return [...acc, property];
+  }, []);
+
+  return fields;
+};
+
+export const getChangeEvents = (
+  fields: string[],
+  events: ('create' | 'edit' | 'index.edit')[]
+): kintone.EventType[] => {
+  const changeEvents = events.reduce<kintone.EventType[]>(
+    (accu, event) =>
+      [
+        ...accu,
+        ...fields.map((field) => `app.record.${event}.change.${field}`),
+      ] as kintone.EventType[],
+    []
+  );
+  return changeEvents;
+};
+
+/** 指定のフィールドコードのフィールドを操作します */
+export const controlField = (
+  record: KintoneRecord,
+  fieldCode: string,
+  callback: (field: Field) => void
+): void => {
+  if (record[fieldCode]) {
+    callback(record[fieldCode]);
+    return;
+  }
+
+  for (const field of Object.values(record)) {
+    if (field.type === 'SUBTABLE') {
+      for (const { value } of field.value) {
+        if (value[fieldCode]) {
+          callback(value[fieldCode]);
+        }
+      }
+    }
+  }
 };

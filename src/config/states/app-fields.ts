@@ -1,11 +1,11 @@
 import { selector } from 'recoil';
-import { Properties } from '@kintone/rest-api-client/lib/client/types';
-import { getUserDefinedFields } from '@common/kintone';
+import { OneOf } from '@kintone/rest-api-client/lib/KintoneFields/types/property';
+import { getAllFields } from '@common/kintone';
 
-const state = selector<Properties>({
+const state = selector<OneOf[]>({
   key: 'AppFields',
   get: async () => {
-    const properties = await getUserDefinedFields();
+    const properties = await getAllFields();
     return properties;
   },
 });
