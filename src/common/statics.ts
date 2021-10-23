@@ -6,6 +6,8 @@ export const URL_HOMEPAGE = 'https://ribbit.work';
 export const URL_TWITTER = 'https://twitter.com/LbRibbit';
 export const URL_GITHUB = 'https://github.com/Local-Bias';
 
+export const LOCAL_STORAGE_KEY = 'ribbit-kintone-plugin';
+
 export const RULE_TYPES = [
   { key: 'always', label: '常に' },
   { key: 'equal', label: '=（等しい）' },

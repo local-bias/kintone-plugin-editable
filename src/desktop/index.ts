@@ -37,7 +37,7 @@ class C {
       const events: launcher.EventTypes = [
         'app.record.create.show',
         'app.record.edit.show',
-        'app.record.index.show',
+        'app.record.index.edit.show',
       ];
 
       const subtableControlButtons = [
