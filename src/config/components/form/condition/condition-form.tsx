@@ -4,7 +4,8 @@ import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { OneOf } from '@kintone/rest-api-client/lib/src/KintoneFields/types/property';
 
-import { appFieldsState, storageState } from '../../../states';
+import { storageState } from '../../../states/plugin';
+import { appFieldsState } from '../../../states';
 import { MenuItem, TextField } from '@mui/material';
 import { RuleTypeKey, RULE_TYPES } from '@/common/statics';
 import { FormControlLabel, IconButton, Switch, Tooltip } from '@mui/material';

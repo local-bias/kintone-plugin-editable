@@ -2,9 +2,9 @@ import manifest from '../../plugin/manifest.json';
 
 export const PLUGIN_NAME = manifest.name.ja;
 
-export const URL_HOMEPAGE = 'https://ribbit.work';
-export const URL_TWITTER = 'https://twitter.com/LbRibbit';
-export const URL_GITHUB = 'https://github.com/Local-Bias';
+export const URL_INQUIRY = 'https://form.konomi.app';
+export const URL_PROMOTION = 'https://promotion.konomi.app/kintone-plugin';
+export const URL_BANNER = 'https://promotion.konomi.app/kintone-plugin/sidebar';
 
 export const LOCAL_STORAGE_KEY = 'ribbit-kintone-plugin';
 
@@ -20,8 +20,8 @@ export const RULE_TYPES = [
   { key: 'full', label: '入力がある場合' },
 ] as const;
 
-export type RuleTypeKey = PickType<typeof RULE_TYPES[number], 'key'>;
-export type RuleTypeLabel = PickType<typeof RULE_TYPES[number], 'label'>;
+export type RuleTypeKey = PickType<(typeof RULE_TYPES)[number], 'key'>;
+export type RuleTypeLabel = PickType<(typeof RULE_TYPES)[number], 'label'>;
 
 export const getRuleLabelFromKey = (key: RuleTypeKey) => {
   return RULE_TYPES.find((type) => type.key === key)!.label;
