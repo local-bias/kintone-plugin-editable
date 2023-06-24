@@ -6,7 +6,7 @@ import { CircularProgress } from '@mui/material';
 import { storageState } from '../../states';
 import ConditionAdditionButton from './condition-addition-button';
 import Condition from './condition';
-import { Loading } from '@common/components/loading';
+import { Loading } from '@/common/components/loading';
 
 type Props = Readonly<{
   storage: kintone.plugin.Storage | null;

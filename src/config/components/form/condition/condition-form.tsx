@@ -6,11 +6,11 @@ import { OneOf } from '@kintone/rest-api-client/lib/KintoneFields/types/property
 
 import { appFieldsState, storageState } from '../../../states';
 import { MenuItem, TextField } from '@mui/material';
-import { RuleTypeKey, RULE_TYPES } from '@common/statics';
+import { RuleTypeKey, RULE_TYPES } from '@/common/statics';
 import { FormControlLabel, IconButton, Switch, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getNewRule } from '@common/plugin';
+import { getNewRule } from '@/common/plugin';
 
 type ContainerProps = { condition: kintone.plugin.Condition; index: number };
 type Props = ContainerProps & {

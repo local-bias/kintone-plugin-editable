@@ -1,6 +1,6 @@
-import { controlField, getChangeEvents } from '@common/kintone';
-import Launcher from '@common/launcher';
-import { restoreStorage } from '@common/plugin';
+import { controlField, getChangeEvents } from '@/common/kintone';
+import Launcher from '@/common/launcher';
+import { restoreStorage } from '@/common/plugin';
 import { Record } from '@kintone/rest-api-client/lib/client/types';
 
 class C {
