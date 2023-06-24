@@ -1,7 +1,7 @@
 import { controlField, getChangeEvents } from '@/common/kintone';
 import Launcher from '@/common/launcher';
 import { restoreStorage } from '@/common/plugin';
-import { Record } from '@kintone/rest-api-client/lib/client/types';
+import { Record } from '@kintone/rest-api-client/lib/src/client/types';
 
 class C {
   private readonly _fieldCode: string;

@@ -2,11 +2,11 @@ import {
   Layout,
   Properties,
   Record as KintoneRecord,
-} from '@kintone/rest-api-client/lib/client/types';
+} from '@kintone/rest-api-client/lib/src/client/types';
 import { KintoneRestAPIClient } from '@kintone/rest-api-client';
 import { Cybozu } from '../types/cybozu';
-import { OneOf as FieldProperty } from '@kintone/rest-api-client/lib/KintoneFields/types/property';
-import { OneOf as Field } from '@kintone/rest-api-client/lib/KintoneFields/types/field';
+import { OneOf as FieldProperty } from '@kintone/rest-api-client/lib/src/KintoneFields/types/property';
+import { OneOf as Field } from '@kintone/rest-api-client/lib/src/KintoneFields/types/field';
 
 /** kintoneアプリに初期状態で存在するフィールドタイプ */
 const DEFAULT_DEFINED_FIELDS: PickType<FieldProperty, 'type'>[] = [

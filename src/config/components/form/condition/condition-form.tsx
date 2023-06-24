@@ -1,8 +1,8 @@
 import React, { ChangeEventHandler, VFC, VFCX } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from '@emotion/styled';
-import produce from 'immer';
-import { OneOf } from '@kintone/rest-api-client/lib/KintoneFields/types/property';
+import { produce } from 'immer';
+import { OneOf } from '@kintone/rest-api-client/lib/src/KintoneFields/types/property';
 
 import { appFieldsState, storageState } from '../../../states';
 import { MenuItem, TextField } from '@mui/material';
