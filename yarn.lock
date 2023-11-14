@@ -526,7 +526,7 @@
     ajv "^8.12.0"
     bytes "^3.1.2"
 
-"@kintone/plugin-packer@7.0.2", "@kintone/plugin-packer@^7.0.2":
+"@kintone/plugin-packer@7.0.2":
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/@kintone/plugin-packer/-/plugin-packer-7.0.2.tgz#117583ee17dea0daac3900d7e63820cdbb3ec107"
   integrity sha512-FddZlFUgbwf4MlXtCIInfFLXDylVgfjxEuY0vNOg5MNZFRxBYk+0YUdhSyha77v0CeT0eM+a4aePK54QDAMuvA==
@@ -537,6 +537,22 @@
     denodeify "^1.2.1"
     meow "^9.0.0"
     mkdirp "^2.1.6"
+    node-rsa "~1.1.1"
+    stream-buffers "^3.0.2"
+    yauzl "^2.10.0"
+    yazl "^2.5.1"
+
+"@kintone/plugin-packer@^7.0.4":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@kintone/plugin-packer/-/plugin-packer-7.1.0.tgz#f4450bc42c69cd4760ec0b368a4aef62068b892b"
+  integrity sha512-H/ATrb2TTyrxn9s697Vnzv90441IX3UZ+WSL54x+ojwsxS9tXFItMLeX2VPWe/qFG7h3rbFlyWsYnNB+A0DtyQ==
+  dependencies:
+    "@kintone/plugin-manifest-validator" "^9.0.1"
+    chokidar "^3.5.3"
+    debug "^4.3.4"
+    denodeify "^1.2.1"
+    meow "^9.0.0"
+    mkdirp "^3.0.1"
     node-rsa "~1.1.1"
     stream-buffers "^3.0.2"
     yauzl "^2.10.0"
@@ -565,13 +581,13 @@
     mime "^3.0.0"
     qs "^6.10.5"
 
-"@kintone/webpack-plugin-kintone-plugin@7.0.2":
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/@kintone/webpack-plugin-kintone-plugin/-/webpack-plugin-kintone-plugin-7.0.2.tgz#761cd28defc8e77ccc41e8fb1186076097bc3a97"
-  integrity sha512-mXnWPzuHqkg77vniXGksfZIDNVV8CSMi8Ca9I3kbU9y3cSV0VjpaEr1KIX36ZCoIyOJGi7AhSdWaO1MVw5sz6w==
+"@kintone/webpack-plugin-kintone-plugin@7.0.5":
+  version "7.0.5"
+  resolved "https://registry.yarnpkg.com/@kintone/webpack-plugin-kintone-plugin/-/webpack-plugin-kintone-plugin-7.0.5.tgz#476a66bf863eb4a2e3f8c8a016860973edadc583"
+  integrity sha512-pgLWIjoUndTvr6JiBEvux/RTh06J/aC4mqi+oZs8KbGI+Hun4nJUTZnY/GnSY8AD1MGYGDsCbLc6AxrrPB8ffw==
   dependencies:
-    "@kintone/plugin-packer" "^7.0.2"
-    mkdirp "^2.1.6"
+    "@kintone/plugin-packer" "^7.0.4"
+    mkdirp "^3.0.1"
 
 "@konomi-app/kbuild@^1.5.2":
   version "1.5.2"
@@ -3319,6 +3335,11 @@ mkdirp@^2.1.6:
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-2.1.6.tgz#964fbcb12b2d8c5d6fbc62a963ac95a273e2cc19"
   integrity sha512-+hEnITedc8LAtIP9u3HJDFIdcLV2vXP33sqLLIzkv1Db1zO/1OxbvYf0Y1OC/S/Qo5dxHXepofhmxL02PsKe+A==
+
+mkdirp@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-3.0.1.tgz#e44e4c5607fb279c168241713cc6e0fea9adcb50"
+  integrity sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==
 
 ms@2.1.2:
   version "2.1.2"
