@@ -20,7 +20,7 @@
     "@emotion/styled": "^11",
     "@kintone/dts-gen": "8.0.10",
     "@kintone/plugin-packer": "8.0.5",
-    "@kintone/plugin-uploader": "9.0.6",
+    "@kintone/plugin-uploader": "9.1.2",
     "@kintone/rest-api-client": "5.5.0",
     "@kintone/webpack-plugin-kintone-plugin": "8.0.7",
     "@konomi-app/kbuild": "*",
