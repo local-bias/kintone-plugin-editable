@@ -15,7 +15,7 @@
   "devDependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@kintone/dts-gen": "8.0.12",
+    "@kintone/dts-gen": "8.1.1",
     "@kintone/rest-api-client": "5.5.2",
     "@konomi-app/k2": "^1.7.7",
     "@konomi-app/kintone-utilities": "^5.12.1",
